@@ -6,30 +6,22 @@ namespace BasicWebApplicationCsharp.Entities;
 
 public partial class AppDbContext : DbContext
 {
-    public AppDbContext()
-    {
-    }
-
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
     }
 
-    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<OrderEntity> Orders { get; set; }
 
-    public virtual DbSet<OrderItem> OrderItems { get; set; }
+    public virtual DbSet<OrderItemEntity> OrderItems { get; set; }
 
-    public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<ProductEntity> Products { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=(local)\\SQLEXPRESS;Initial Catalog=BasicWebApplicationDatabase;Persist Security Info=True;User ID=test_db_admin;Password=admin;Pooling=False;Encrypt=True;Trust Server Certificate=True");
+    public virtual DbSet<UserEntity> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Order>(entity =>
+        modelBuilder.Entity<OrderEntity>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Orders__3214EC070936E92D");
 
@@ -40,7 +32,7 @@ public partial class AppDbContext : DbContext
                 .HasConstraintName("FK_Orders_User");
         });
 
-        modelBuilder.Entity<OrderItem>(entity =>
+        modelBuilder.Entity<OrderItemEntity>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__OrderIte__3214EC07E6241441");
 
@@ -51,12 +43,12 @@ public partial class AppDbContext : DbContext
                 .HasConstraintName("FK_OrderItems_Product");
         });
 
-        modelBuilder.Entity<Product>(entity =>
+        modelBuilder.Entity<ProductEntity>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Products__3214EC07D5988508");
         });
 
-        modelBuilder.Entity<User>(entity =>
+        modelBuilder.Entity<UserEntity>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Users__3214EC077106C012");
         });

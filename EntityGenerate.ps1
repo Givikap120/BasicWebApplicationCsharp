@@ -8,4 +8,5 @@ Scaffold-DbContext `
     -OutputDir $outputDir `
     -Context $contextName `
     -DataAnnotations `
-    -Force
+    -Force `
+    -NoOnConfiguring
