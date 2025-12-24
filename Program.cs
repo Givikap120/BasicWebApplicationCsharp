@@ -1,4 +1,4 @@
-using BasicWebApplicationCsharp.EntityModels;
+using BasicWebApplicationCsharp.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 

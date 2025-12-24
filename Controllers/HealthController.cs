@@ -1,4 +1,4 @@
-﻿using BasicWebApplicationCsharp.EntityModels;
+﻿using BasicWebApplicationCsharp.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BasicWebApplicationCsharp.Controllers

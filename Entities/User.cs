@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace BasicWebApplicationCsharp.EntityModels;
+namespace BasicWebApplicationCsharp.Entities;
 
 [Index("Email", Name = "UQ__Users__A9D10534D25E80B8", IsUnique = true)]
-public partial class User
+public partial class UserEntity
 {
     [Key]
     public int Id { get; set; }
@@ -24,5 +24,5 @@ public partial class User
     public int Role { get; set; }
 
     [InverseProperty("User")]
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
 }

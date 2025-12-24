@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace BasicWebApplicationCsharp.EntityModels;
+namespace BasicWebApplicationCsharp.Entities;
 
 [Index("Sku", Name = "UQ__Products__CA1ECF0D7C9D41AF", IsUnique = true)]
-public partial class Product
+public partial class ProductEntity
 {
     [Key]
     public int Id { get; set; }
@@ -27,5 +27,5 @@ public partial class Product
     public int StockQuantity { get; set; }
 
     [InverseProperty("Product")]
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public virtual ICollection<OrderItemEntity> OrderItems { get; set; } = new List<OrderItemEntity>();
 }

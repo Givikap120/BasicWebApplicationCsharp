@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace BasicWebApplicationCsharp.EntityModels;
+namespace BasicWebApplicationCsharp.Entities;
 
-public partial class OrderItem
+public partial class OrderItemEntity
 {
     [Key]
     public int Id { get; set; }
@@ -22,9 +22,9 @@ public partial class OrderItem
 
     [ForeignKey("OrderId")]
     [InverseProperty("OrderItems")]
-    public virtual Order Order { get; set; } = null!;
+    public virtual OrderEntity Order { get; set; } = null!;
 
     [ForeignKey("ProductId")]
     [InverseProperty("OrderItems")]
-    public virtual Product Product { get; set; } = null!;
+    public virtual ProductEntity Product { get; set; } = null!;
 }
