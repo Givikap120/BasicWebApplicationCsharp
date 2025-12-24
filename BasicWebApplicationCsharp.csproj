@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>BasicWebApplicationC_</RootNamespace>
+    <RootNamespace>BasicWebApplicationCsharp</RootNamespace>
     <UserSecretsId>139ceac2-edf1-482a-933f-9200e6f0b58a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>

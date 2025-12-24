@@ -2,9 +2,9 @@
 {
     public enum UserRole
     {
+        Customer,
         Admin,
         Manager,
-        Customer
     }
 
     public class User
