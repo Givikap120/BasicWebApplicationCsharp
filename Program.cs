@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(
+    options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
