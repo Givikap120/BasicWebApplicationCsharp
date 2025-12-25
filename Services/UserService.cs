@@ -33,6 +33,12 @@ namespace BasicWebApplicationCsharp.Services
             return new User(user.Id, user.Username, user.Email, user.PasswordHash, (UserRole)user.Role);
         }
 
+        public User? GetById(int id)
+        {
+            var userEntity = _db.Users.Find(id);
+            return userEntity == null ? null : DomainFromEntity(userEntity);
+        }
+
         public User CreateUser(string username, string email, string password)
         {
             if (_db.Users.Any(u => u.Username == username))
