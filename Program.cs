@@ -1,4 +1,6 @@
 using BasicWebApplicationCsharp.Entities;
+using BasicWebApplicationCsharp.Services;
+using BasicWebApplicationCsharp.Utils;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -14,6 +16,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
+
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<OrderService>();
+
+builder.Services.AddSingleton<IPasswordHasher, MyPasswordHasher>();
 
 var app = builder.Build();
 
