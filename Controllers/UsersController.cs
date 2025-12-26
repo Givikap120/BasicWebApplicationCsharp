@@ -13,11 +13,11 @@ namespace BasicWebApplicationCsharp.Controllers
             => _userService = userService;
 
         [HttpPost("register")]
-        public IActionResult Register(string username, string email, string password)
+        public IActionResult Register([FromBody] UserRegisterDto dto)
         {
             try
             {
-                var user = _userService.CreateUser(username, email, password);
+                var user = _userService.CreateUser(dto.Username, dto.Email, dto.Password);
                 return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
             }
             catch (Exception ex)
@@ -27,9 +27,9 @@ namespace BasicWebApplicationCsharp.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login([FromBody] UserLoginDto dto)
         {
-            var user = _userService.Authenticate(email, password);
+            var user = _userService.Authenticate(dto.Email, dto.Password);
             if (user == null)
                 return Unauthorized();
 
@@ -44,6 +44,19 @@ namespace BasicWebApplicationCsharp.Controllers
                 return NotFound();
 
             return Ok(user);
+        }
+
+        public class UserRegisterDto
+        {
+            public string Username { get; set; } = "";
+            public string Email { get; set; } = "";
+            public string Password { get; set; } = "";
+        }
+
+        public class UserLoginDto
+        {
+            public string Email { get; set; } = "";
+            public string Password { get; set; } = "";
         }
     }
 }
