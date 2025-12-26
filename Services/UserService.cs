@@ -65,7 +65,8 @@ namespace BasicWebApplicationCsharp.Services
         {
             var user = _db.Users.SingleOrDefault(u => u.Email == email);
 
-            if (user == null || _passwordHasher.VerifyHashedPassword(password, user.PasswordHash) == PasswordVerificationResult.Failed)
+
+            if (user == null || _passwordHasher.VerifyHashedPassword(user.PasswordHash, password) == PasswordVerificationResult.Failed)
                return null;
 
             return DomainFromEntity(user);
