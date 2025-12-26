@@ -69,8 +69,8 @@ namespace BasicWebApplicationCsharp.Services
             var order = _db.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.Id == orderId);
             if (order == null || order.Status != (int)OrderStatus.Draft) return null;
 
-            var productExists = _db.Products.Any(p => p.Id == productId);
-            if (!productExists) return null;
+            var product = _db.Products.Single(p => p.Id == productId);
+            if (product == null || product.StockQuantity < quantity) return null;
 
             var existingItemEntity = order.OrderItems.FirstOrDefault(i => i.ProductId == productId);
 
@@ -84,9 +84,12 @@ namespace BasicWebApplicationCsharp.Services
                 {
                     OrderId = order.Id,
                     ProductId = productId,
-                    Quantity = quantity
+                    Quantity = quantity,
+                    UnitPrice = product.Price
                 });
             }
+
+            product.StockQuantity -= quantity;
 
             _db.SaveChanges();
             return DomainFromEntity(order);
@@ -102,6 +105,12 @@ namespace BasicWebApplicationCsharp.Services
             var item = order.OrderItems.FirstOrDefault(i => i.ProductId == productId);
             if (item == null) return null;
 
+            int deltaQuantity = quantity - item.Quantity;
+
+            var product = _db.Products.Single(p => p.Id == productId);
+            if (product == null || product.StockQuantity < deltaQuantity) return null;
+
+            product.StockQuantity -= deltaQuantity;
             item.Quantity = quantity;
             _db.SaveChanges();
 
@@ -116,6 +125,10 @@ namespace BasicWebApplicationCsharp.Services
             var item = order.OrderItems.FirstOrDefault(i => i.ProductId == productId);
             if (item == null) return null;
 
+            var product = _db.Products.Single(p => p.Id == productId);
+            if (product == null) return null;
+
+            product.StockQuantity += item.Quantity;
             order.OrderItems.Remove(item);
             _db.SaveChanges();
 
