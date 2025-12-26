@@ -39,7 +39,6 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(order);
         }
 
-
         [HttpPut("{id:int}/items")]
         public IActionResult ChangeOrderItemQuantity(int id, [FromBody] OrderItemFullDto request)
         {
