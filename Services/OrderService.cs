@@ -124,7 +124,7 @@ namespace BasicWebApplicationCsharp.Services
 
         public Order? Place(int orderId)
         {
-            var order = _db.Orders.Find(orderId);
+            var order = _db.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.Id == orderId);
             if (order == null || order.Status != (int)OrderStatus.Draft) return null;
 
             order.Status = (int)OrderStatus.Placed;
@@ -135,7 +135,7 @@ namespace BasicWebApplicationCsharp.Services
 
         public Order? Pay(int orderId)
         {
-            var order = _db.Orders.Find(orderId);
+            var order = _db.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.Id == orderId);
             if (order == null || order.Status != (int)OrderStatus.Placed) return null;
 
             order.Status = (int)OrderStatus.Paid;
@@ -146,7 +146,7 @@ namespace BasicWebApplicationCsharp.Services
 
         public Order? ConfirmPickup(int orderId)
         {
-            var order = _db.Orders.Find(orderId);
+            var order = _db.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.Id == orderId);
             if (order == null || order.Status != (int)OrderStatus.Paid)
                 return null;
 
@@ -158,7 +158,7 @@ namespace BasicWebApplicationCsharp.Services
 
         public Order? ConfirmDelivery(int orderId)
         {
-            var order = _db.Orders.Find(orderId);
+            var order = _db.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.Id == orderId);
             if (order == null || order.Status != (int)OrderStatus.Shipped)
                 return null;
 
@@ -170,7 +170,7 @@ namespace BasicWebApplicationCsharp.Services
 
         public Order? Complete(int orderId)
         {
-            var order = _db.Orders.Find(orderId);
+            var order = _db.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.Id == orderId);
             if (order == null || order.Status != (int)OrderStatus.Delivered)
                 return null;
 
@@ -182,7 +182,7 @@ namespace BasicWebApplicationCsharp.Services
 
         public Order? Cancel(int orderId)
         {
-            var order = _db.Orders.Find(orderId);
+            var order = _db.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.Id == orderId);
             if (order == null || order.Status == (int)OrderStatus.Completed)
                 return null;
 
