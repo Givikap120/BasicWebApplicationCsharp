@@ -8,8 +8,11 @@
 
         public OrderItem(int productId, int quantity, decimal unitPrice)
         {
+            if (unitPrice < 0)
+                throw new ArgumentException("Price cannot be negative", nameof(unitPrice));
+
             if (quantity <= 0)
-                throw new ArgumentException("Quantity must be greater than 0", nameof(quantity));
+                throw new ArgumentException("Quantity cannot be zero or negative", nameof(quantity));
 
             ProductId = productId;
             Quantity = quantity;
