@@ -1,6 +1,8 @@
-﻿using BasicWebApplicationCsharp.Services;
+﻿using BasicWebApplicationCsharp.Domains;
+using BasicWebApplicationCsharp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BasicWebApplicationCsharp.Controllers
 {
@@ -12,6 +14,22 @@ namespace BasicWebApplicationCsharp.Controllers
 
         public OrdersController(OrderService orderService)
             => _orderService = orderService;
+
+        private int? GetUserId()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out var userId))
+                return null;
+
+            return userId;
+        }
+
+        private bool CanAccessOrder(Order order)
+        {
+            int? userId = GetUserId() ?? -1;
+            var isAdmin = User.IsInRole("Admin");
+            return isAdmin || order.UserId == userId;
+        }
 
         [Authorize(Roles = "Manager")]
         [HttpGet("{id:int}")]
@@ -26,9 +44,12 @@ namespace BasicWebApplicationCsharp.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create([FromBody] OrderDto request)
+        public IActionResult Create()
         {
-            var order = _orderService.Create(request.UserId);
+            int? userId = GetUserId();
+            if (userId == null) return Forbid();
+
+            var order = _orderService.Create(userId.Value);
             return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
         }
 
@@ -39,6 +60,9 @@ namespace BasicWebApplicationCsharp.Controllers
             var order = _orderService.AddItem(id, request.ProductId, request.Quantity);
             if (order == null)
                 return NotFound();
+
+            if (!CanAccessOrder(order))
+                return Forbid();
 
             return Ok(order);
         }
@@ -51,6 +75,9 @@ namespace BasicWebApplicationCsharp.Controllers
             if (order == null)
                 return NotFound();
 
+            if (!CanAccessOrder(order))
+                return Forbid();
+
             return Ok(order);
         }
 
@@ -62,6 +89,9 @@ namespace BasicWebApplicationCsharp.Controllers
             if (order == null)
                 return NotFound();
 
+            if (!CanAccessOrder(order))
+                return Forbid();
+
             return Ok(order);
         }
 
@@ -72,6 +102,9 @@ namespace BasicWebApplicationCsharp.Controllers
             var order = _orderService.Place(id);
             if (order == null)
                 return NotFound();
+
+            if (!CanAccessOrder(order))
+                return Forbid();
 
             return Ok(order);
         }
