@@ -3,8 +3,8 @@
     public enum UserRole
     {
         Customer,
-        Admin,
         Manager,
+        Admin
     }
 
     public class User
