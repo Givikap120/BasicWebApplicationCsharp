@@ -26,7 +26,7 @@ builder.Services.AddScoped<OrderService>();
 
 builder.Services.AddSingleton<IPasswordHasher, MyPasswordHasher>();
 
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "MyJwtKey"; // This is a test project, so key is public
+var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key is not configured");
 
 builder.Services.AddAuthentication(options =>
 {
