@@ -1,4 +1,5 @@
 ﻿using BasicWebApplicationCsharp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BasicWebApplicationCsharp.Controllers
@@ -12,6 +13,7 @@ namespace BasicWebApplicationCsharp.Controllers
         public OrdersController(OrderService orderService)
             => _orderService = orderService;
 
+        [Authorize(Roles = "Manager")]
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
@@ -22,6 +24,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(order);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Create([FromBody] OrderDto request)
         {
@@ -29,6 +32,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
         }
 
+        [Authorize]
         [HttpPost("{id:int}/items")]
         public IActionResult AddOrderItem(int id, [FromBody] OrderItemFullDto request)
         {
@@ -39,6 +43,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(order);
         }
 
+        [Authorize]
         [HttpPut("{id:int}/items")]
         public IActionResult ChangeOrderItemQuantity(int id, [FromBody] OrderItemFullDto request)
         {
@@ -49,7 +54,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(order);
         }
 
-
+        [Authorize]
         [HttpDelete("{id:int}/items")]
         public IActionResult DeleteOrderItem(int id, [FromBody] OrderItemIdDto request)
         {
@@ -60,6 +65,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(order);
         }
 
+        [Authorize]
         [HttpPost("{id:int}/place")]
         public IActionResult Place(int id)
         {
@@ -71,6 +77,7 @@ namespace BasicWebApplicationCsharp.Controllers
         }
 
         // This is a fake payment endpoint for demonstration purposes. Immediately marks the order as paid.
+        [Authorize(Roles = "Manager")]
         [HttpPost("{id:int}/pay")]
         public IActionResult Pay(int id)
         {
@@ -81,6 +88,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(order);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost("{id:int}/confirm-pickup")]
         public IActionResult ConfirmPickup(int id)
         {
@@ -91,6 +99,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(order);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost("{id:int}/confirm-delivery")]
         public IActionResult ConfirmDelivery(int id)
         {
@@ -101,6 +110,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(order);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost("{id:int}/complete")]
         public IActionResult Complete(int id)
         {
@@ -111,6 +121,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(order);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost("{id:int}/cancel")]
         public IActionResult Cancel(int id)
         {

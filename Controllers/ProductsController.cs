@@ -1,4 +1,5 @@
 ﻿using BasicWebApplicationCsharp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BasicWebApplicationCsharp.Controllers
@@ -29,6 +30,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(product);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public IActionResult Create([FromBody] ProductDto dto)
         {
@@ -36,6 +38,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(product);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody] ProductDto dto)
         {
@@ -47,6 +50,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(product);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {

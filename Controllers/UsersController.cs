@@ -78,6 +78,7 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(new { token = tokenString });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {

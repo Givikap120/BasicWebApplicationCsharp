@@ -1,4 +1,5 @@
 ﻿using BasicWebApplicationCsharp.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BasicWebApplicationCsharp.Controllers
@@ -14,6 +15,7 @@ namespace BasicWebApplicationCsharp.Controllers
             _db = db;
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> CheckAll()
         {
