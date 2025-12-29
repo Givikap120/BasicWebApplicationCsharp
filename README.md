@@ -1,6 +1,6 @@
 ﻿# Basic Web Appliction Backend API (C# / ASP.NET)
 
-A simple store-type backend API built with **ASP.NET**, **Entity Framework**, and **JWT Bearer authentication**.  
+A simple store-type backend API built with **ASP.NET**, **Entity Framework**, and **JWT Bearer authentication**.  <br>
 The project demonstrates clean separation of concerns, role-based authorization, and basic order management.
 
 This repository is intended as a project for resume to demonstrate my skills.
@@ -51,6 +51,15 @@ Swagger is available in **Development** mode.
 6. Click **Authorize** in Swagger and enter the token here
 7. Now you could access endpoints that require auth
 
-Note: you need to have at least one admin account to be able to promote others to admin. 
+Note: you need to have at least one admin account to be able to promote others to admin.<br>
 You could create first admin account by manually changing the role in database.
 
+## CodeTemplates
+
+This project overrides default code templates for entity files in order to add suffix `Entity` to the generated classes.<br>
+The templates are located in the `CodeTemplates\EFCore` folder.
+
+## Entities
+
+The generated entities are located in the `Entities` folder. The file names are matching the table names, but class names have `Entity` suffix to avoid nameing conflict.<br>
+Changing the name of generated files is a bit tricky (it would require extra plugins or running the scripts), so to avoid unnecessary complexity I added the suffix only to the class names.
