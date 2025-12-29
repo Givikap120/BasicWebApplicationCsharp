@@ -71,5 +71,17 @@ namespace BasicWebApplicationCsharp.Services
 
             return DomainFromEntity(user);
         }
+
+        public User? SetRole(int userId, UserRole role)
+        {
+            var user = _db.Users.Find(userId);
+            if (user == null)
+                return null;
+
+            user.Role = (int)role;
+            _db.SaveChanges();
+
+            return DomainFromEntity(user);
+        }
     }
 }

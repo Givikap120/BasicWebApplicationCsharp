@@ -89,6 +89,17 @@ namespace BasicWebApplicationCsharp.Controllers
             return Ok(user);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPost("{id:int}")]
+        public IActionResult ChangeRole(int id, [FromBody] UserRole role)
+        {
+            var user = _userService.SetRole(id, role);
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
+
         public class UserRegisterDto
         {
             public string Username { get; set; } = "";
