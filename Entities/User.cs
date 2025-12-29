@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BasicWebApplicationCsharp.Entities;
 
-[Index("Email", Name = "UQ__Users__A9D10534D25E80B8", IsUnique = true)]
+[Index("Email", Name = "UQ__Users__Email", IsUnique = true)]
+[Index("Username", Name = "UQ__Users__Username", IsUnique = true)]
 public partial class UserEntity
 {
     [Key]

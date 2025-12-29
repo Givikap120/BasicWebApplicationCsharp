@@ -23,7 +23,7 @@ public partial class AppDbContext : DbContext
     {
         modelBuilder.Entity<OrderEntity>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Orders__3214EC070936E92D");
+            entity.HasKey(e => e.Id).HasName("PK__Orders__Id");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
 
@@ -34,7 +34,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<OrderItemEntity>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderIte__3214EC07E6241441");
+            entity.HasKey(e => e.Id).HasName("PK__OrderItems_Id");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems).HasConstraintName("FK_OrderItems_Order");
 
@@ -45,12 +45,12 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<ProductEntity>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Products__3214EC07D5988508");
+            entity.HasKey(e => e.Id).HasName("PK__Products__Id");
         });
 
         modelBuilder.Entity<UserEntity>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC077106C012");
+            entity.HasKey(e => e.Id).HasName("PK__Users__Id");
         });
 
         OnModelCreatingPartial(modelBuilder);

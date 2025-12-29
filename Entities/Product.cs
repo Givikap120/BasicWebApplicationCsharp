@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BasicWebApplicationCsharp.Entities;
 
-[Index("Sku", Name = "UQ__Products__CA1ECF0D7C9D41AF", IsUnique = true)]
+[Index("Sku", Name = "UQ__Products__SKU", IsUnique = true)]
 public partial class ProductEntity
 {
     [Key]
