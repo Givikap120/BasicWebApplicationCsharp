@@ -1,4 +1,5 @@
-﻿using BasicWebApplicationCsharp.Domains;
+﻿using BasicWebApplicationCsharp.Controllers;
+using BasicWebApplicationCsharp.Domains;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -22,19 +23,9 @@ namespace BasicWebApplicationCsharp.Tests
             if (!_testOptions.IsAuthenticated)
                 return Task.FromResult(AuthenticateResult.Fail("Not authenticated"));
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, "1"),
-                new Claim(ClaimTypes.Name, "TestUser")
-            };
+            var testUser = new User(1, "Test", "test@email.com", "hash", _testOptions.Role);
 
-            if (_testOptions.Role >= UserRole.Customer)
-                claims.Add(new Claim(ClaimTypes.Role, "Customer"));
-            if (_testOptions.Role >= UserRole.Manager)
-                claims.Add(new Claim(ClaimTypes.Role, "Manager"));
-            if (_testOptions.Role >= UserRole.Admin)
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-
+            var claims = UsersController.MakeClaimsForUser(testUser);
             var identity = new ClaimsIdentity(claims, "Test");
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, "Test");

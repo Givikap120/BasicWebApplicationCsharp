@@ -36,15 +36,8 @@ namespace BasicWebApplicationCsharp.Controllers
             }
         }
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLoginDto dto)
+        public static List<Claim> MakeClaimsForUser(User user)
         {
-            var user = _userService.Authenticate(dto.Email, dto.Password);
-            if (user == null)
-                return Unauthorized();
-
-            var jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key is not configured");
-
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -60,6 +53,20 @@ namespace BasicWebApplicationCsharp.Controllers
 
             if (user.Role >= UserRole.Admin)
                 claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+
+            return claims;
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] UserLoginDto dto)
+        {
+            var user = _userService.Authenticate(dto.Email, dto.Password);
+            if (user == null)
+                return Unauthorized();
+
+            var jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key is not configured");
+
+            var claims = MakeClaimsForUser(user);
 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtKey)
