@@ -14,8 +14,8 @@ This repository is intended as a project for resume to demonstrate my skills.
 - Business logic control
 - Entity Framework with SQL Server
 - Swagger documentation
-- Docker support (WIP)
-- Unit tests (WIP)
+- Docker support
+- Unit tests
 
 ## Tech Stack
 
