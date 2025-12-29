@@ -103,3 +103,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+namespace BasicWebApplicationCsharp
+{ 
+    public partial class Program { }
+}
